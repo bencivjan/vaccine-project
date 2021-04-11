@@ -77,22 +77,23 @@ app.post("/api/insert", (require, response) => {
 	console.log(vaccine_brand);
 
 	const sqlInsert = "INSERT INTO `vaccines` (`vaccine_id`, `vaccine_name`, `vaccine_brand`) VALUES (?,?,?)";
-	db.query(sqlInsert, [ vaccine_id, vaccine_name, vaccine_brand ], (err, result) => {
+	db.query(sqlInsert, [vaccine_id, vaccine_name, vaccine_brand], (err, result) => {
 		console.log(result);
 		console.log(err);
 	});
 });
 
 app.delete("/api/delete/:movieName", (require, response) => {
-	const movieName = require.params.movieName;
+	const vaccine_id = require.body.vaccine_id;
 
-	const sqlDelete = "DELETE FROM `movie_reviews` WHERE `movieName`= ?";
-	db.query(sqlDelete, movieName, (err, result) => {
+	const sqlDelete = "DELETE FROM `vaccines` WHERE `vaccine_id`= ?";
+	db.query(sqlDelete, vaccine_id, (err, result) => {
 		if (err) console.log(err);
 	});
 });
 
 app.put("/api/update/", (require, response) => {
+<<<<<<< HEAD
 	console.log(require.body);
 	const vaccine_id = require.body.vaccine_id;
 	const vaccine_name = require.body.vaccine_name;
@@ -102,6 +103,13 @@ app.put("/api/update/", (require, response) => {
 	console.log(vaccine_brand);
 	const sqlUpdate = "UPDATE `vaccines` SET `vaccine_name` = ?, `vaccine_brand` = ?  WHERE `vaccine_id`= ?";
 	db.query(sqlUpdate, [ vaccine_name, vaccine_brand, vaccine_id ], (err, result) => {
+=======
+	const movieName = require.body.movieName;
+	const movieReview = require.body.movieReview;
+
+	const sqlUpdate = "UPDATE `movie_reviews` SET `movieReview` = ? WHERE `movieName`= ?";
+	db.query(sqlUpdate, [movieReview, movieName], (err, result) => {
+>>>>>>> 64dd91690f28518e10919842e36789a3c3dbc686
 		if (err) console.log(err);
 	});
 

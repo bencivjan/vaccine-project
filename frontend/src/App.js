@@ -29,20 +29,20 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 
 function App() {
-	const [ id, setId ] = useState();
-	const [ Name, setName ] = useState("");
-	const [ Brand, setBrand ] = useState("");
+	const [id, setId] = useState();
+	const [Name, setName] = useState("");
+	const [Brand, setBrand] = useState("");
 
-	const [ movieReviewList, setMovieReviewList ] = useState([]);
-	const [ newReview, setNewReview ] = useState("");
+	const [vaccineList, setVaccineList] = useState([]);
+	const [newVaccine, setNewVaccine] = useState("");
 
 	useEffect(() => {
 		Axios.get("http://localhost:3002/api/get").then(response => {
-			setMovieReviewList(response.data);
+			setVaccineList(response.data);
 		});
 	}, []);
 
-	const submitReview = () => {
+	const submitVaccine = () => {
 		console.log("Submitted");
 		console.log(id);
 		console.log(Name);
@@ -52,9 +52,9 @@ function App() {
 			vaccine_name: Name,
 			vaccine_brand: Brand
 		});
-		console.log(movieReviewList);
-		setMovieReviewList([
-			...movieReviewList,
+		console.log(vaccineList);
+		setVaccineList([
+			...vaccineList,
 			{
 				vaccine_id: id,
 				vaccine_name: Name,
@@ -63,16 +63,16 @@ function App() {
 		]);
 	};
 
-	const deleteReview = id => {
+	const deleteVaccine = id => {
 		Axios.delete(`http://localhost:3002/api/delete/${id}`);
 	};
 
-	const updateReview = id => {
+	const updateVaccine = id => {
 		Axios.put(`http://localhost:3002/api/update`, {
 			id: id,
-			movieReview: newReview
+			movieReview: newVaccine
 		});
-		setNewReview("");
+		setNewVaccine("");
 	};
 
 	return (
@@ -106,17 +106,19 @@ function App() {
 					}}
 				/>
 
-				<button onClick={submitReview}> Submit</button>
+				<button onClick={submitVaccine}> Submit</button>
 
-				{movieReviewList &&
-					movieReviewList.map(val => {
+				{vaccineList &&
+					vaccineList.map(val => {
 						return (
 							<div className="card">
-								<h1> MovieName: {val.id} </h1>
-								<p>Movie Name: {val.movieReview}</p>
+								<h1> Vaccine ID: {val.id} </h1>
+								<p>Vaccine ID: {val.vaccine_id}</p>
+								<p>Vaccine Name: {val.vaccine_name}</p>
+								<p>Vaccine Brand: {val.vaccine_brand}</p>
 								<button
 									onClick={() => {
-										deleteReview(val.id);
+										deleteVaccine(val.id);
 									}}
 								>
 									{" "}
@@ -126,12 +128,12 @@ function App() {
 									type="text"
 									id="updateInput"
 									onChange={e => {
-										setNewReview(e.target.value);
+										setNewVaccine(e.target.value);
 									}}
 								/>
 								<button
 									onClick={() => {
-										updateReview(val.id);
+										updateVaccine(val.id);
 									}}
 								>
 									{" "}
