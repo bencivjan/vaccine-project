@@ -29,15 +29,15 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 
 function App() {
-	const [id, setId] = useState();
-	const [Name, setName] = useState("");
-	const [Brand, setBrand] = useState("");
+	const [ id, setId ] = useState();
+	const [ Name, setName ] = useState("");
+	const [ Brand, setBrand ] = useState("");
 
-	const [vaccineList, setVaccineList] = useState([]);
-	const [newVaccine, setNewVaccine] = useState("");
+	const [ vaccineList, setVaccineList ] = useState([]);
+	const [ newVaccine, setNewVaccine ] = useState("");
 
 	useEffect(() => {
-		Axios.get("http://localhost:3002/api/get").then(response => {
+		Axios.get("http://localhost:3002/api/initdata").then(response => {
 			setVaccineList(response.data);
 		});
 	}, []);

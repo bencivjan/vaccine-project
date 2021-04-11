@@ -49,16 +49,17 @@ var db = mysql.createConnection({
 //     });
 //   });
 
-// app.get("/", (require, response) => {
-// 	const sqlInsert = "INSERT INTO `vaccines` (`vaccine_id`, `vaccine_name`, `vaccine_brand`) VALUES ('4', 'a', 'b');";
-// 	db.query(sqlInsert, (err, result) => {
-// 		response.send("Hello world!!!");
-// 	});
-// });
-
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.get("/api/initdata", (require, response) => {
+	const sqlSelect = "SELECT * FROM vaccines";
+	db.query(sqlSelect, (err, result) => {
+		response.send(result);
+		response.send(err);
+	});
+});
 
 app.get("/api/get", (require, response) => {
 	const sqlSelect = "SELECT * FROM movie_reviews";
@@ -77,7 +78,7 @@ app.post("/api/insert", (require, response) => {
 	console.log(vaccine_brand);
 
 	const sqlInsert = "INSERT INTO `vaccines` (`vaccine_id`, `vaccine_name`, `vaccine_brand`) VALUES (?,?,?)";
-	db.query(sqlInsert, [vaccine_id, vaccine_name, vaccine_brand], (err, result) => {
+	db.query(sqlInsert, [ vaccine_id, vaccine_name, vaccine_brand ], (err, result) => {
 		console.log(result);
 		console.log(err);
 	});
@@ -97,7 +98,7 @@ app.put("/api/update/", (require, response) => {
 	const movieReview = require.body.movieReview;
 
 	const sqlUpdate = "UPDATE `movie_reviews` SET `movieReview` = ? WHERE `movieName`= ?";
-	db.query(sqlUpdate, [movieReview, movieName], (err, result) => {
+	db.query(sqlUpdate, [ movieReview, movieName ], (err, result) => {
 		if (err) console.log(err);
 	});
 });
