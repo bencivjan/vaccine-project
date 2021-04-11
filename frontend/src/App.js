@@ -52,7 +52,7 @@ function App() {
 			vaccine_name: Name,
 			vaccine_brand: Brand
 		});
-
+		console.log(movieReviewList);
 		setMovieReviewList([
 			...movieReviewList,
 			{
@@ -108,7 +108,7 @@ function App() {
 
 				<button onClick={submitReview}> Submit</button>
 
-				{movieReviewList.map(val => {
+				{/* {movieReviewList.map(val => {
 					return (
 						<div className="card">
 							<h1> MovieName: {val.id} </h1>
@@ -138,7 +138,7 @@ function App() {
 							</button>
 						</div>
 					);
-				})}
+				})} */}
 			</div>
 		</div>
 	);
