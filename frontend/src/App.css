@@ -19,7 +19,7 @@
 .card {
 	width: 500px;
 	height: 190px;
-	border: 2px solid grey;
+	border: 40px solid grey;
 	border-radius: 15px;
 	margin: 10px;
 }
@@ -27,5 +27,5 @@
 #updateInput {
 	width: 100px;
 	height: 20px;
-	margin-bottom: 10px;
+	margin-bottom: 40px;
 }

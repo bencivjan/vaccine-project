@@ -57,7 +57,7 @@ app.get("/api/initdata", (require, response) => {
 	const sqlSelect = "SELECT * FROM vaccines";
 	db.query(sqlSelect, (err, result) => {
 		response.send(result);
-		response.send(err);
+		console.log(err);
 	});
 });
 
