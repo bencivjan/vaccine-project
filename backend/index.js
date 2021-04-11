@@ -94,13 +94,6 @@ app.delete("/api/delete/:movieName", (require, response) => {
 });
 
 app.put("/api/update/", (require, response) => {
-<<<<<<< HEAD
-	const movieName = require.body.movieName;
-	const movieReview = require.body.movieReview;
-
-	const sqlUpdate = "UPDATE `movie_reviews` SET `movieReview` = ? WHERE `movieName`= ?";
-	db.query(sqlUpdate, [ movieReview, movieName ], (err, result) => {
-=======
 	console.log(require.body);
 	const vaccine_id = require.body.vaccine_id;
 	const vaccine_name = require.body.vaccine_name;
@@ -110,7 +103,6 @@ app.put("/api/update/", (require, response) => {
 	console.log(vaccine_brand);
 	const sqlUpdate = "UPDATE `vaccines` SET `vaccine_name` = ?, `vaccine_brand` = ?  WHERE `vaccine_id`= ?";
 	db.query(sqlUpdate, [ vaccine_name, vaccine_brand, vaccine_id ], (err, result) => {
->>>>>>> fd68b4e23aed43c1b9f148e8068e58a73b30d4e7
 		if (err) console.log(err);
 	});
 
