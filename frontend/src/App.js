@@ -39,6 +39,7 @@ function App() {
 	useEffect(() => {
 		Axios.get("http://localhost:3002/api/initdata").then(response => {
 			setVaccineList(response.data);
+
 		});
 	}, []);
 
@@ -105,8 +106,21 @@ function App() {
 						setBrand(e.target.value);
 					}}
 				/>
+				
+				<button onClick={submitVaccine}> Add</button>
+				
+				<h1> SEARCH VACCINES </h1>
+				<input
+					type="text"
+					name="search"
+					/*
+					onChange={e => {
+						setBrand(e.target.value);
+					}}
+					*/
+				/>
 
-				<button onClick={submitVaccine}> Submit</button>
+				<button onClick={submitVaccine}> Search </button>
 
 				{vaccineList &&
 					vaccineList.map(val => {
