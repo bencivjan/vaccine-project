@@ -29,7 +29,7 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 
 function App() {
-	const [ id, setId ] = useState("");
+	const [ id, setId ] = useState();
 	const [ Name, setName ] = useState("");
 	const [ Brand, setBrand ] = useState("");
 

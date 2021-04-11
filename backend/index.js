@@ -78,7 +78,8 @@ app.post("/api/insert", (require, response) => {
 
 	const sqlInsert = "INSERT INTO `vaccines` (`vaccine_id`, `vaccine_name`, `vaccine_brand`) VALUES (?,?,?)";
 	db.query(sqlInsert, [ vaccine_id, vaccine_name, vaccine_brand ], (err, result) => {
-		console.log(error);
+		console.log(result);
+		console.log(err);
 	});
 });
 
@@ -87,7 +88,7 @@ app.delete("/api/delete/:movieName", (require, response) => {
 
 	const sqlDelete = "DELETE FROM `movie_reviews` WHERE `movieName`= ?";
 	db.query(sqlDelete, movieName, (err, result) => {
-		if (err) console.log(error);
+		if (err) console.log(err);
 	});
 });
 
@@ -97,7 +98,7 @@ app.put("/api/update/", (require, response) => {
 
 	const sqlUpdate = "UPDATE `movie_reviews` SET `movieReview` = ? WHERE `movieName`= ?";
 	db.query(sqlUpdate, [ movieReview, movieName ], (err, result) => {
-		if (err) console.log(error);
+		if (err) console.log(err);
 	});
 });
 
