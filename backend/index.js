@@ -26,7 +26,7 @@ app.post("/api/search", (require, response) => {
 	const search_query = require.body.search_query;
 	const sqlSearch = "SELECT * FROM `vaccine_verification` WHERE `verification_id` = ? OR `vaccine_id` =  ?";
 
-	db.query(sqlSearch, [search_query, search_query], (err, result) => {
+	db.query(sqlSearch, [ search_query, search_query ], (err, result) => {
 		response.send(result);
 	});
 });
@@ -36,7 +36,8 @@ app.post("/api/insert", (require, response) => {
 	const vaccine_id = require.body.vaccine_id;
 
 	const sqlInsert = "INSERT INTO `vaccine_verification` (`verification_id`, `vaccine_id`) VALUES (?,?)";
-	db.query(sqlInsert, [verification_id, vaccine_id], (err, result) => {
+	db.query(sqlInsert, [ verification_id, vaccine_id ], (err, result) => {
+		console.log(result);
 		console.log(err);
 	});
 });
@@ -44,7 +45,6 @@ app.post("/api/insert", (require, response) => {
 app.delete("/api/delete/:vaccine_id", (require, response) => {
 	const vaccine_id = require.params.vaccine_id;
 	console.log(vaccine_id);
-
 	const sqlDelete = "DELETE FROM `vaccine_verification` WHERE `vaccine_id` = ?";
 	db.query(sqlDelete, vaccine_id, (err, result) => {
 		if (err) console.log(err);
@@ -52,10 +52,14 @@ app.delete("/api/delete/:vaccine_id", (require, response) => {
 });
 
 app.put("/api/update/", (require, response) => {
-	const vaccine_id = require.body.vaccine_id;
+	console.log(require.body);
 	const verification_id = require.body.verification_id;
+	const vaccine_id = require.body.vaccine_id;
+	console.log(verification_id);
+	console.log(vaccine_id);
 	const sqlUpdate = "UPDATE `vaccine_verification` SET `vaccine_id` = ?  WHERE `verification_id`= ?";
-	db.query(sqlUpdate, [vaccine_id, verification_id], (err, result) => {
+	db.query(sqlUpdate, [ vaccine_id, verification_id ], (err, result) => {
+		console
 		if (err) console.log(err);
 	});
 });

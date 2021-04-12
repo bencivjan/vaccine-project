@@ -23,11 +23,12 @@ function App() {
 			vaccine_id: vaccine_id
 		});
 		setVerifiedList([
-			...verifiedList,
+	
 			{
 				verification_id: verification_id,
 				vaccine_id: vaccine_id
-			}
+			},
+			...verifiedList
 		]);
 	};
 
@@ -35,7 +36,7 @@ function App() {
 		Axios.delete(`http://localhost:3002/api/delete/${vaccine_id}`);
 	};
 
-	const updateVerified = (vaccine_id) => {
+	const updateVerified = (verification_id) => {
 		Axios.put(`http://localhost:3002/api/update`, {
 			verification_id: verification_id,
 			vaccine_id: newID
