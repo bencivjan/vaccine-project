@@ -13,6 +13,7 @@ function App() {
 
 	const [searchQuery, setQuery] = useState("");
 
+
 	useEffect(() => {
 		Axios.get("http://localhost:3002/api/initdata").then(response => {
 			setVaccineList(response.data);

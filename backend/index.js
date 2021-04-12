@@ -65,7 +65,22 @@ app.put("/api/update/", (require, response) => {
 });
 
 app.get("/api/advanced_query", (require, response) => {
-	const sqlInsert = "SELECT * FROM `vaccines` WHERE `vaccine_id` < 3";
+	const sqlInsert =
+		`(SELECT first_name, last_name, age, vaccine_brand
+		FROM vaccine_db.person NATURAL JOIN received_dose NATURAL JOIN vaccines
+		WHERE age = (
+			SELECT  max(age)
+				FROM person
+			))
+		UNION
+
+		(SELECT first_name, last_name, age, vaccine_brand
+		FROM vaccine_db.person NATURAL JOIN received_dose NATURAL JOIN vaccines
+		WHERE age = (
+			SELECT  min(age)
+				FROM person
+			))`
+		;
 	db.query(sqlInsert, (err, result) => {
 		console.log(result);
 		response.send(result);
