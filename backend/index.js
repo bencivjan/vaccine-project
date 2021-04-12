@@ -29,6 +29,7 @@ app.post("/api/search", (require, response) => {
 
 	db.query(sqlSearch, [ search_query, search_query, search_query ], (err, result) => {
 		response.send(result);
+        console.log(result);
 		console.log(err);
 	});
 });
