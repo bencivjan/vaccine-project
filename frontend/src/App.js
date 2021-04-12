@@ -20,16 +20,11 @@ function App() {
 	}, []);
 
 	const submitVaccine = () => {
-		console.log("Submitted");
-		console.log(id);
-		console.log(Name);
-		console.log(Brand);
 		Axios.post("http://localhost:3002/api/insert", {
 			vaccine_id: id,
 			vaccine_name: Name,
 			vaccine_brand: Brand
 		});
-		console.log(vaccineList);
 		setVaccineList([
 			...vaccineList,
 			{
@@ -41,10 +36,7 @@ function App() {
 	};
 
 	const deleteVaccine = id => {
-		console.log("deleted");
-		console.log(id);
 		Axios.delete(`http://localhost:3002/api/delete/${id}`);
-
 	};
 
 	const updateVaccine = (vaccine_id) => {
@@ -116,11 +108,6 @@ function App() {
 				<input
 					type="text"
 					name="advanced_result"
-				/*
-				onChange={e => {
-					setBrand(e.target.value);
-				}}
-				*/
 				/>
 
 				{vaccineList &&
@@ -133,7 +120,6 @@ function App() {
 								<button
 									onClick={() => {
 										deleteVaccine(val.vaccine_id);
-										console.log(val.vaccine_id);
 									}}
 								>
 									{" "}
