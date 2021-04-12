@@ -4,54 +4,60 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 
 function App() {
-	const [id, setId] = useState();
-	const [Name, setName] = useState("");
-	const [Brand, setBrand] = useState("");
-
-	const [vaccineList, setVaccineList] = useState([]);
-	const [newBrand, setNewBrand] = useState("");
-
+	const [verification_id, setVerificationID] = useState();
+	const [vaccine_id, setVaccineID] = useState("");
+	const [verifiedList, setVerifiedList] = useState([]);
+	const [newID, setNewID] = useState("");
 	const [searchQuery, setQuery] = useState("");
+	const [advQuery, setAdvQuery] = useState([]);
 
 	useEffect(() => {
 		Axios.get("http://localhost:3002/api/initdata").then(response => {
-			setVaccineList(response.data);
+			setVerifiedList(response.data);
 		});
 	}, []);
 
-	const submitVaccine = () => {
+	const submitVerified = () => {
 		Axios.post("http://localhost:3002/api/insert", {
-			vaccine_id: id,
-			vaccine_name: Name,
-			vaccine_brand: Brand
+			verification_id: verification_id,
+			vaccine_id: vaccine_id
 		});
-		setVaccineList([
-			...vaccineList,
+		setVerifiedList([
+			...verifiedList,
 			{
-				vaccine_id: id,
-				vaccine_name: Name,
-				vaccine_brand: Brand
+				verification_id: verification_id,
+				vaccine_id: vaccine_id
 			}
 		]);
 	};
 
-	const deleteVaccine = id => {
-		Axios.delete(`http://localhost:3002/api/delete/${id}`);
+	const deleteVerified = (vaccine_id) => {
+		Axios.delete(`http://localhost:3002/api/delete/${vaccine_id}`);
 	};
 
-	const updateVaccine = (vaccine_id) => {
+	const updateVerified = (vaccine_id) => {
 		Axios.put(`http://localhost:3002/api/update`, {
-			vaccine_id: vaccine_id,
-			vaccine_brand: newBrand
+			verification_id: verification_id,
+			vaccine_id: newID
 		});
-		setNewBrand("");
+		setNewID("");
 	};
 
-	const searchVaccine = id => {
+	const searchVerified = () => {
 		Axios.post("http://localhost:3002/api/search", {
 			search_query: searchQuery
 		}).then(response => {
-			setVaccineList(response.data || []);
+			setVerifiedList(response.data || []);
+			setAdvQuery([]);
+		});
+	};
+
+	const runAdvancedQuery = () => {
+		Axios.get("http://localhost:3002/api/advanced_query", {}).then(response => {
+			console.log(response.data);
+
+			setAdvQuery(response.data || []);
+			setVerifiedList([]);
 		});
 	};
 
@@ -60,35 +66,35 @@ function App() {
 			<h1> CRUD APPLICATIONS</h1>
 
 			<div className="form">
-				<label> Vaccine Id:</label>
+				<label> Verification ID:</label>
 				<input
 					type="text"
-					name="id"
+					name="username"
 					onChange={e => {
-						setId(e.target.value);
+						setVerificationID(e.target.value);
 					}}
 				/>
-				<label> Vaccine Name:</label>
+				<label> Vaccine ID:</label>
 				<input
 					type="text"
-					name="Name"
+					name="password"
 					onChange={e => {
-						setName(e.target.value);
+						setVaccineID(e.target.value);
 					}}
 				/>
 
-				<label> Vaccine Brand: </label>
+				{/* <label> Vaccine Brand: </label>
 				<input
 					type="text"
 					name="Brand"
 					onChange={e => {
 						setBrand(e.target.value);
 					}}
-				/>
+				/> */}
 
-				<button onClick={submitVaccine}> Add</button>
+				<button onClick={submitVerified}> Add</button>
 
-				<h1> SEARCH VACCINES </h1>
+				<h1> SEARCH VERIFICATIONS </h1>
 				<input
 					type="text"
 					name="search"
@@ -97,46 +103,56 @@ function App() {
 					}}
 				/>
 
-				<button onClick={searchVaccine}> Search </button>
+				<button onClick={searchVerified}> Search </button>
 
 				<div id="searchResults" />
 
 				<h1> ADVANCED QUERY </h1>
 
-				<button onClick={submitVaccine}> submit </button>
+				<button onClick={runAdvancedQuery}> RUN </button>
 
-				<input
-					type="text"
-					name="advanced_result"
-				/>
-
-				{vaccineList &&
-					vaccineList.map(val => {
+				{advQuery &&
+					advQuery.map(val => {
 						return (
 							<div className="card">
-								<h1> Vaccine ID: {val.vaccine_id} </h1>
-								<p>Vaccine Name: {val.vaccine_name}</p>
-								<p>Vaccine Brand: {val.vaccine_brand}</p>
+								<h1> Person ID: {val.person_id} </h1>
+								<p> First Name: {val.first_name}</p>
+								<p> Last Name: {val.last_name}</p>
+								<p> Vaccine Brand: {val.vaccine_brand}</p>
+							</div>
+						);
+					})}
+
+				{verifiedList &&
+					verifiedList.map(val => {
+						return (
+							<div className="card">
+								<h1> Verification ID: {val.verification_id} </h1>
+								<p> Vaccine ID: {val.vaccine_id}</p>
+								{/* <p>Vaccine Brand: {val.vaccine_brand}</p> */}
 								<button
 									onClick={() => {
-										deleteVaccine(val.vaccine_id);
+										delete(val.vaccine_id);
 									}}
 								>
 									{" "}
-									Delete</button>
+									Delete
+								</button>
 								<input
 									type="text"
 									id="updateInput"
 									onChange={e => {
-										setNewBrand(e.target.value);
-									}} />
+										setNewID(e.target.value);
+									}}
+								/>
 								<button
 									onClick={() => {
-										updateVaccine(val.vaccine_id);
+										updateVerified(val.verification_id);
 									}}
 								>
 									{" "}
-									Update</button>
+									Update
+								</button>
 							</div>
 						);
 					})}
