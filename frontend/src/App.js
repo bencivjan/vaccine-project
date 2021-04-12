@@ -13,6 +13,8 @@ function App() {
 
 	const [searchQuery, setQuery] = useState("");
 
+	const [ advQuery, setAdvQuery ] = useState([]);
+
 	useEffect(() => {
 		Axios.get("http://localhost:3002/api/initdata").then(response => {
 			setLocationList(response.data);
@@ -52,15 +54,16 @@ function App() {
 			search_query: searchQuery
 		}).then(response => {
 			setLocationList(response.data || []);
+			setAdvQuery([]);
 		});
 	};
 
-	const runAdvancedQuery = id => {
-		Axios.get("http://localhost:3002/api/advanced_query", {
-		}).then(response => {
+	const runAdvancedQuery = () => {
+		Axios.get("http://localhost:3002/api/advanced_query", {}).then(response => {
 			console.log(response.data);
 
-			setLocationList(response.data || []);
+			setAdvQuery(response.data || []);
+			setLocationList([]);
 		});
 	};
 
@@ -114,6 +117,17 @@ function App() {
 				<h1> ADVANCED QUERY </h1>
 
 				<button onClick={runAdvancedQuery}> RUN </button>
+
+				{advQuery &&
+					advQuery.map(val => {
+						return (
+							<div className="card">
+								<h1> First Name: {val.first_name} </h1>
+								<p> Vaccine Brand: {val.vaccine_brand}</p>
+								<p> Clinic Name: {val.clinic_name}</p>
+							</div>
+						);
+					})}
 
 				{locationList &&
 					locationList.map(val => {

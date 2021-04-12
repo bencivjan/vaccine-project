@@ -65,11 +65,17 @@ app.put("/api/update/", (require, response) => {
 });
 
 app.get("/api/advanced_query", (require, response) => {
-	const sqlInsert = "SELECT * FROM `locations` WHERE `location_id` < 3";
+	const sqlInsert = `
+	SELECT p.first_name, v.vaccine_brand, l.clinic_name
+    FROM locations l JOIN received_at USING (location_id) JOIN person p USING (person_id) JOIN received_dose rtd USING (person_id) JOIN vaccines v USING (vaccine_id)
+    WHERE p.age > 15
+    GROUP BY p.first_name, v.vaccine_brand, l.clinic_name
+	`;
+
 	db.query(sqlInsert, (err, result) => {
 		console.log(result);
 		response.send(result);
-	})
+	});
 });
 
 app.listen(3002, () => {
