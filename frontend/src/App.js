@@ -132,7 +132,7 @@ function App() {
 								{/* <p>Vaccine Brand: {val.vaccine_brand}</p> */}
 								<button
 									onClick={() => {
-										delete(val.vaccine_id);
+										deleteVerified(val.vaccine_id);
 									}}
 								>
 									{" "}
