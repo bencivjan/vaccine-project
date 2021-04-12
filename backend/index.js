@@ -1,32 +1,3 @@
-// const express = require("express");
-// const app = express();
-// const mysql = require("mysql");
-
-// var db = mysql.createConnection({
-// 	host: "localhost",
-// 	user: "root",
-// 	password: "123abc",
-// 	database: "vaccination_database"
-// });
-
-// app.get("/", (require, response) => {
-// 	const sqlInsert = "SELECT * FROM vaccines";
-// 	db.query(sqlInsert, (err, result) => {
-// 		response.send("Hello world!");
-// 	});
-// });
-
-// app.listen(3001, () => {
-// 	console.log("running on port 3001");
-// });
-//
-//
-//
-//
-//
-//
-//
-
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
@@ -39,15 +10,6 @@ var db = mysql.createConnection({
 	password: "123abc",
 	database: "vaccine_db"
 });
-
-// db.connect(function(err) {
-//     if (err) throw err;
-//     var sql = "INSERT INTO `movie_reviews` (`id`,`movieName`, `movieReview`) VALUES (5,'inception', 'good movie');";
-//     db.query(sql, function (err, result) {
-//       if (err) throw err;
-//       console.log(result.affectedRows + " record(s) updated");
-//     });
-//   });
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -62,9 +24,15 @@ app.get("/api/initdata", (require, response) => {
 });
 
 app.get("/api/get", (require, response) => {
-	const sqlSelect = "SELECT * FROM movie_reviews";
-	db.query(sqlSelect, (err, result) => {
-		response.send(result);
+    const search_query = require.body.search_query;
+	const sqlSearch = "SELECT * FROM `vaccines` WHERE `vaccine_id` = ? OR `vaccine_name` =  ? OR `vaccine_brand` = ?";
+
+    console.log(require.body);
+    console.log(require.body.search_query);
+
+	db.query(sqlSearch, [search_query, search_query, search_query], (err, result) => {
+		console.log(result);
+		console.log(err);
 	});
 });
 
