@@ -69,7 +69,7 @@ function App() {
 				<label> Verification ID:</label>
 				<input
 					type="text"
-					name="username"
+					name="verification_id"
 					onChange={e => {
 						setVerificationID(e.target.value);
 					}}
@@ -77,7 +77,7 @@ function App() {
 				<label> Vaccine ID:</label>
 				<input
 					type="text"
-					name="password"
+					name="vaccine_id"
 					onChange={e => {
 						setVaccineID(e.target.value);
 					}}
