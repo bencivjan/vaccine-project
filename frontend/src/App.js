@@ -122,6 +122,20 @@ function App() {
 
 				<button onClick={submitVaccine}> Search </button>
 
+				<h1> ADVANCED QUERY </h1>
+
+				<button onClick={submitVaccine}> submit </button>
+
+				<input
+					type="text"
+					name="advanced_result"
+					/*
+					onChange={e => {
+						setBrand(e.target.value);
+					}}
+					*/
+				/>
+
 				{vaccineList &&
 					vaccineList.map(val => {
 						return (
