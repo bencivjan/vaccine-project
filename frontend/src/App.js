@@ -55,6 +55,16 @@ function App() {
 		});
 	};
 
+	const runAdvancedQuery = id => {
+		Axios.get("http://localhost:3002/api/advanced_query", {
+		}).then(response => {
+			console.log(response.data);
+
+			setVaccineList(response.data || []);
+		});
+	};
+
+
 	return (
 		<div className="App">
 			<h1> CRUD APPLICATIONS</h1>
@@ -103,12 +113,7 @@ function App() {
 
 				<h1> ADVANCED QUERY </h1>
 
-				<button onClick={submitVaccine}> submit </button>
-
-				<input
-					type="text"
-					name="advanced_result"
-				/>
+				<button onClick={runAdvancedQuery}> RUN </button>
 
 				{vaccineList &&
 					vaccineList.map(val => {

@@ -55,16 +55,21 @@ app.delete("/api/delete/:vaccine_id", (require, response) => {
 });
 
 app.put("/api/update/", (require, response) => {
-	// console.log(require.body);
 	const vaccine_id = require.body.vaccine_id;
 	const vaccine_brand = require.body.vaccine_brand;
-	// console.log(vaccine_name);
-	// console.log(vaccine_brand);
 	const sqlUpdate = "UPDATE `vaccines` SET `vaccine_brand` = ?  WHERE `vaccine_id`= ?";
 	db.query(sqlUpdate, [vaccine_brand, vaccine_id], (err, result) => {
 		console.log(result);
 		if (err) console.log(err);
 	});
+});
+
+app.get("/api/advanced_query", (require, response) => {
+	const sqlInsert = "SELECT * FROM `vaccines` WHERE `vaccine_id` < 3";
+	db.query(sqlInsert, (err, result) => {
+		console.log(result);
+		response.send(result);
+	})
 });
 
 app.listen(3002, () => {
