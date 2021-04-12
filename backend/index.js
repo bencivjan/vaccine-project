@@ -29,19 +29,14 @@ app.post("/api/search", (require, response) => {
 
 	db.query(sqlSearch, [search_query, search_query, search_query], (err, result) => {
 		response.send(result);
-		console.log(result);
 		console.log(err);
 	});
 });
 
 app.post("/api/insert", (require, response) => {
-	console.log(require.body);
 	const vaccine_id = require.body.vaccine_id;
 	const vaccine_name = require.body.vaccine_name;
 	const vaccine_brand = require.body.vaccine_brand;
-	console.log(vaccine_id);
-	console.log(vaccine_name);
-	console.log(vaccine_brand);
 
 	const sqlInsert = "INSERT INTO `vaccines` (`vaccine_id`, `vaccine_name`, `vaccine_brand`) VALUES (?,?,?)";
 	db.query(sqlInsert, [vaccine_id, vaccine_name, vaccine_brand], (err, result) => {
@@ -52,7 +47,6 @@ app.post("/api/insert", (require, response) => {
 
 app.delete("/api/delete/:vaccine_id", (require, response) => {
 	const vaccine_id = require.params.vaccine_id;
-	console.log(vaccine_id);
 
 	const sqlDelete = "DELETE FROM `vaccines` WHERE `vaccine_id` = ?";
 	db.query(sqlDelete, vaccine_id, (err, result) => {
