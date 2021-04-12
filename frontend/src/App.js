@@ -50,7 +50,11 @@ function App() {
 
 	const updateVaccine = (vaccine_brand) => {
 		Axios.put(`http://localhost:3002/api/update`, {
+<<<<<<< HEAD
 			vaccine_brand: vaccine_brand,
+=======
+			id: id,
+>>>>>>> df109c4eaf4373a44fc0340005400a7634472c24
 			vaccine_name: newVaccine
 		});
 		setNewVaccine("");
