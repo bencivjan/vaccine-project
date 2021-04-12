@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.get("/api/initdata", (require, response) => {
-	const sqlSelect = "SELECT * FROM vaccines";
+	const sqlSelect = "SELECT * FROM locations";
 	db.query(sqlSelect, (err, result) => {
 		response.send(result);
 		console.log(err);
@@ -25,7 +25,7 @@ app.get("/api/initdata", (require, response) => {
 
 app.post("/api/search", (require, response) => {
 	const search_query = require.body.search_query;
-	const sqlSearch = "SELECT * FROM `vaccines` WHERE `vaccine_id` = ? OR `vaccine_name` =  ? OR `vaccine_brand` = ?";
+	const sqlSearch = "SELECT * FROM `locations` WHERE `location_id` = ? OR `clinic_name` =  ? OR `address` = ?";
 
 	db.query(sqlSearch, [search_query, search_query, search_query], (err, result) => {
 		response.send(result);
@@ -34,38 +34,38 @@ app.post("/api/search", (require, response) => {
 });
 
 app.post("/api/insert", (require, response) => {
-	const vaccine_id = require.body.vaccine_id;
-	const vaccine_name = require.body.vaccine_name;
-	const vaccine_brand = require.body.vaccine_brand;
+	const location_id = require.body.location_id;
+	const clinic_name = require.body.clinic_name;
+	const address = require.body.address;
 
-	const sqlInsert = "INSERT INTO `vaccines` (`vaccine_id`, `vaccine_name`, `vaccine_brand`) VALUES (?,?,?)";
-	db.query(sqlInsert, [vaccine_id, vaccine_name, vaccine_brand], (err, result) => {
+	const sqlInsert = "INSERT INTO `locations` (`location_id`, `clinic_name`, `address`) VALUES (?,?,?)";
+	db.query(sqlInsert, [location_id, clinic_name, address], (err, result) => {
 		console.log(result);
 		console.log(err);
 	});
 });
 
-app.delete("/api/delete/:vaccine_id", (require, response) => {
-	const vaccine_id = require.params.vaccine_id;
+app.delete("/api/delete/:location_id", (require, response) => {
+	const location_id = require.params.location_id;
 
-	const sqlDelete = "DELETE FROM `vaccines` WHERE `vaccine_id` = ?";
-	db.query(sqlDelete, vaccine_id, (err, result) => {
+	const sqlDelete = "DELETE FROM `locations` WHERE `location_id` = ?";
+	db.query(sqlDelete, location_id, (err, result) => {
 		if (err) console.log(err);
 	});
 });
 
 app.put("/api/update/", (require, response) => {
-	const vaccine_id = require.body.vaccine_id;
-	const vaccine_brand = require.body.vaccine_brand;
-	const sqlUpdate = "UPDATE `vaccines` SET `vaccine_brand` = ?  WHERE `vaccine_id`= ?";
-	db.query(sqlUpdate, [vaccine_brand, vaccine_id], (err, result) => {
+	const location_id = require.body.location_id;
+	const address = require.body.address;
+	const sqlUpdate = "UPDATE `locations` SET `address` = ?  WHERE `location_id`= ?";
+	db.query(sqlUpdate, [address, location_id], (err, result) => {
 		console.log(result);
 		if (err) console.log(err);
 	});
 });
 
 app.get("/api/advanced_query", (require, response) => {
-	const sqlInsert = "SELECT * FROM `vaccines` WHERE `vaccine_id` < 3";
+	const sqlInsert = "SELECT * FROM `locations` WHERE `location_id` < 3";
 	db.query(sqlInsert, (err, result) => {
 		console.log(result);
 		response.send(result);

@@ -6,52 +6,52 @@ import Axios from "axios";
 function App() {
 	const [id, setId] = useState();
 	const [Name, setName] = useState("");
-	const [Brand, setBrand] = useState("");
+	const [Address, setBrand] = useState("");
 
-	const [vaccineList, setVaccineList] = useState([]);
-	const [newBrand, setNewBrand] = useState("");
+	const [locationList, setLocationList] = useState([]);
+	const [newAddress, setNewBrand] = useState("");
 
 	const [searchQuery, setQuery] = useState("");
 
 	useEffect(() => {
 		Axios.get("http://localhost:3002/api/initdata").then(response => {
-			setVaccineList(response.data);
+			setLocationList(response.data);
 		});
 	}, []);
 
-	const submitVaccine = () => {
+	const submitLocation = () => {
 		Axios.post("http://localhost:3002/api/insert", {
-			vaccine_id: id,
-			vaccine_name: Name,
-			vaccine_brand: Brand
+			location_id: id,
+			clinic_name: Name,
+			address: Address
 		});
-		setVaccineList([
-			...vaccineList,
+		setLocationList([
+			...locationList,
 			{
-				vaccine_id: id,
-				vaccine_name: Name,
-				vaccine_brand: Brand
+				location_id: id,
+				clinic_name: Name,
+				address: Address
 			}
 		]);
 	};
 
-	const deleteVaccine = id => {
+	const deleteLocation = id => {
 		Axios.delete(`http://localhost:3002/api/delete/${id}`);
 	};
 
-	const updateVaccine = (vaccine_id) => {
+	const updateLocation = (location_id) => {
 		Axios.put(`http://localhost:3002/api/update`, {
-			vaccine_id: vaccine_id,
-			vaccine_brand: newBrand
+			location_id: location_id,
+			address: newAddress
 		});
 		setNewBrand("");
 	};
 
-	const searchVaccine = id => {
+	const searchLocation = id => {
 		Axios.post("http://localhost:3002/api/search", {
 			search_query: searchQuery
 		}).then(response => {
-			setVaccineList(response.data || []);
+			setLocationList(response.data || []);
 		});
 	};
 
@@ -60,7 +60,7 @@ function App() {
 		}).then(response => {
 			console.log(response.data);
 
-			setVaccineList(response.data || []);
+			setLocationList(response.data || []);
 		});
 	};
 
@@ -70,7 +70,7 @@ function App() {
 			<h1> CRUD APPLICATIONS</h1>
 
 			<div className="form">
-				<label> Vaccine Id:</label>
+				<label> Location ID:</label>
 				<input
 					type="text"
 					name="id"
@@ -78,7 +78,7 @@ function App() {
 						setId(e.target.value);
 					}}
 				/>
-				<label> Vaccine Name:</label>
+				<label> Clinic Name:</label>
 				<input
 					type="text"
 					name="Name"
@@ -87,16 +87,16 @@ function App() {
 					}}
 				/>
 
-				<label> Vaccine Brand: </label>
+				<label> Address: </label>
 				<input
 					type="text"
-					name="Brand"
+					name="Address"
 					onChange={e => {
 						setBrand(e.target.value);
 					}}
 				/>
 
-				<button onClick={submitVaccine}> Add</button>
+				<button onClick={submitLocation}> Add</button>
 
 				<h1> SEARCH VACCINES </h1>
 				<input
@@ -107,7 +107,7 @@ function App() {
 					}}
 				/>
 
-				<button onClick={searchVaccine}> Search </button>
+				<button onClick={searchLocation}> Search </button>
 
 				<div id="searchResults" />
 
@@ -115,16 +115,16 @@ function App() {
 
 				<button onClick={runAdvancedQuery}> RUN </button>
 
-				{vaccineList &&
-					vaccineList.map(val => {
+				{locationList &&
+					locationList.map(val => {
 						return (
 							<div className="card">
-								<h1> Vaccine ID: {val.vaccine_id} </h1>
-								<p>Vaccine Name: {val.vaccine_name}</p>
-								<p>Vaccine Brand: {val.vaccine_brand}</p>
+								<h1> Location ID: {val.location_id} </h1>
+								<p>Clinic Name: {val.clinic_name}</p>
+								<p>Address: {val.address}</p>
 								<button
 									onClick={() => {
-										deleteVaccine(val.vaccine_id);
+										deleteLocation(val.location_id);
 									}}
 								>
 									{" "}
@@ -137,7 +137,7 @@ function App() {
 									}} />
 								<button
 									onClick={() => {
-										updateVaccine(val.vaccine_id);
+										updateLocation(val.location_id);
 									}}
 								>
 									{" "}
