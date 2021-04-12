@@ -19,7 +19,6 @@ app.get("/api/initdata", (require, response) => {
 	const sqlSelect = "SELECT * FROM vaccines";
 	db.query(sqlSelect, (err, result) => {
 		response.send(result);
-		console.log(err);
 	});
 });
 
@@ -29,23 +28,16 @@ app.post("/api/search", (require, response) => {
 
 	db.query(sqlSearch, [search_query, search_query, search_query], (err, result) => {
 		response.send(result);
-		console.log(result);
-		console.log(err);
 	});
 });
 
 app.post("/api/insert", (require, response) => {
-	console.log(require.body);
 	const vaccine_id = require.body.vaccine_id;
 	const vaccine_name = require.body.vaccine_name;
 	const vaccine_brand = require.body.vaccine_brand;
-	console.log(vaccine_id);
-	console.log(vaccine_name);
-	console.log(vaccine_brand);
 
 	const sqlInsert = "INSERT INTO `vaccines` (`vaccine_id`, `vaccine_name`, `vaccine_brand`) VALUES (?,?,?)";
 	db.query(sqlInsert, [vaccine_id, vaccine_name, vaccine_brand], (err, result) => {
-		console.log(result);
 		console.log(err);
 	});
 });
@@ -61,14 +53,10 @@ app.delete("/api/delete/:vaccine_id", (require, response) => {
 });
 
 app.put("/api/update/", (require, response) => {
-	// console.log(require.body);
 	const vaccine_id = require.body.vaccine_id;
 	const vaccine_brand = require.body.vaccine_brand;
-	// console.log(vaccine_name);
-	// console.log(vaccine_brand);
 	const sqlUpdate = "UPDATE `vaccines` SET `vaccine_brand` = ?  WHERE `vaccine_id`= ?";
 	db.query(sqlUpdate, [vaccine_brand, vaccine_id], (err, result) => {
-		console.log(result);
 		if (err) console.log(err);
 	});
 });
