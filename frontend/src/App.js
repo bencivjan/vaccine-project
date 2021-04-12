@@ -138,23 +138,20 @@ function App() {
 									}}
 								>
 									{" "}
-									Delete
-								</button>
+									Delete</button>
 								<input
 									type="text"
 									id="updateInput"
 									onChange={e => {
 										setNewVaccine(e.target.value);
-									}}
-								/>
+									} }/>
 								<button
 									onClick={() => {
-										updateVaccine(val.id);
+										updateVaccine(val.vaccine_brand);
 									}}
 								>
 									{" "}
-									Update
-								</button>
+									Update</button>
 							</div>
 						);
 					})}
