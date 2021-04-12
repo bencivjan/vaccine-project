@@ -101,6 +101,7 @@ app.put("/api/update/", (require, response) => {
 	console.log(vaccine_brand);
 	const sqlUpdate = "UPDATE `vaccines` SET `vaccine_name` = ?  WHERE `vaccine_brand`= ?";
 	db.query(sqlUpdate, [ vaccine_name, vaccine_brand ], (err, result) => {
+		console.log(result);
 		if (err) console.log(err);
 	});
 
