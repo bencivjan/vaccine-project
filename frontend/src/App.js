@@ -4,54 +4,54 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 
 function App() {
-	const [id, setId] = useState();
-	const [Name, setName] = useState("");
-	const [Brand, setBrand] = useState("");
+	const [ username, setUsername ] = useState("");
+	const [ password, setPassword ] = useState("");
+	// const [ Brand, setBrand ] = useState("");
 
-	const [vaccineList, setVaccineList] = useState([]);
-	const [newBrand, setNewBrand] = useState("");
+	const [ userList, setUserList ] = useState([]);
+	const [ newPassword, setNewPassword ] = useState("");
 
-	const [searchQuery, setQuery] = useState("");
+	const [ searchQuery, setQuery ] = useState("");
 
 	useEffect(() => {
 		Axios.get("http://localhost:3002/api/initdata").then(response => {
-			setVaccineList(response.data);
+			setUserList(response.data);
 		});
 	}, []);
 
-	const submitVaccine = () => {
+	const submitUser = () => {
 		Axios.post("http://localhost:3002/api/insert", {
-			vaccine_id: id,
-			vaccine_name: Name,
-			vaccine_brand: Brand
+			username: username,
+			password: password
+			// vaccine_brand: Brand
 		});
-		setVaccineList([
-			...vaccineList,
+		setUserList([
+			...userList,
 			{
-				vaccine_id: id,
-				vaccine_name: Name,
-				vaccine_brand: Brand
+				username: username,
+				password: password
+				// vaccine_brand: Brand
 			}
 		]);
 	};
 
-	const deleteVaccine = id => {
-		Axios.delete(`http://localhost:3002/api/delete/${id}`);
+	const deleteUser = username => {
+		Axios.delete(`http://localhost:3002/api/delete/${username}`);
 	};
 
-	const updateVaccine = (vaccine_id) => {
+	const updateUser = username => {
 		Axios.put(`http://localhost:3002/api/update`, {
-			vaccine_id: vaccine_id,
-			vaccine_brand: newBrand
+			username: username,
+			password: newPassword
 		});
-		setNewBrand("");
+		setNewPassword("");
 	};
 
-	const searchVaccine = id => {
+	const searchUser = username => {
 		Axios.post("http://localhost:3002/api/search", {
 			search_query: searchQuery
 		}).then(response => {
-			setVaccineList(response.data || []);
+			setUserList(response.data || []);
 		});
 	};
 
@@ -60,35 +60,35 @@ function App() {
 			<h1> CRUD APPLICATIONS</h1>
 
 			<div className="form">
-				<label> Vaccine Id:</label>
+				<label> Username:</label>
 				<input
 					type="text"
-					name="id"
+					name="username"
 					onChange={e => {
-						setId(e.target.value);
+						setUsername(e.target.value);
 					}}
 				/>
-				<label> Vaccine Name:</label>
+				<label> Password:</label>
 				<input
 					type="text"
-					name="Name"
+					name="password"
 					onChange={e => {
-						setName(e.target.value);
+						setPassword(e.target.value);
 					}}
 				/>
 
-				<label> Vaccine Brand: </label>
+				{/* <label> Vaccine Brand: </label>
 				<input
 					type="text"
 					name="Brand"
 					onChange={e => {
 						setBrand(e.target.value);
 					}}
-				/>
+				/> */}
 
-				<button onClick={submitVaccine}> Add</button>
+				<button onClick={submitUser}> Add</button>
 
-				<h1> SEARCH VACCINES </h1>
+				<h1> SEARCH USERS </h1>
 				<input
 					type="text"
 					name="search"
@@ -97,46 +97,47 @@ function App() {
 					}}
 				/>
 
-				<button onClick={searchVaccine}> Search </button>
+				<button onClick={searchUser}> Search </button>
 
 				<div id="searchResults" />
 
 				<h1> ADVANCED QUERY </h1>
 
-				<button onClick={submitVaccine}> submit </button>
+				<button onClick={submitUser}> submit </button>
 
-				<input
-					type="text"
-					name="advanced_result"
-				/>
+				<input type="text" name="advanced_result" />
 
-				{vaccineList &&
-					vaccineList.map(val => {
+				{userList &&
+					userList.map(val => {
 						return (
 							<div className="card">
-								<h1> Vaccine ID: {val.vaccine_id} </h1>
-								<p>Vaccine Name: {val.vaccine_name}</p>
-								<p>Vaccine Brand: {val.vaccine_brand}</p>
+								<h1> Username: {val.username} </h1>
+								<p> Password: {val.password}</p>
+								{/* <p>Vaccine Brand: {val.vaccine_brand}</p> */}
 								<button
 									onClick={() => {
-										deleteVaccine(val.vaccine_id);
+										deleteUser(val.username);
 									}}
 								>
 									{" "}
-									Delete</button>
+									Delete
+								</button>
 								<input
 									type="text"
 									id="updateInput"
 									onChange={e => {
-										setNewBrand(e.target.value);
-									}} />
+										// setNewBrand(e.target.value);
+										setNewPassword(e.target.value);
+									}}
+								/>
 								<button
 									onClick={() => {
-										updateVaccine(val.vaccine_id);
+										updateUser(val.username);
 									}}
 								>
 									{" "}
-									Update</button>
+									Update
+								</button>
 							</div>
 						);
 					})}
