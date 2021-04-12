@@ -66,6 +66,35 @@ app.put("/api/update/", (require, response) => {
 	});
 });
 
+app.get("/api/advanced_query", (require, response) => {
+	const sqlInsert = `
+	SELECT age, sum(freq) as totalFreq
+	FROM
+	
+	((SELECT age, COUNT(DISTINCT p.person_id) as freq
+	FROM person as p NATURAL JOIN received_dose as r NATURAL JOIN vaccines as v
+	WHERE r.dose_number >= 2 AND v.vaccine_brand IN ('Moderna', 'Pfizer')
+	GROUP BY age
+	)
+
+	UNION
+
+	(SELECT age, COUNT(DISTINCT p.person_id) as freq
+	FROM person as p NATURAL JOIN received_dose as r NATURAL JOIN vaccines as v
+	WHERE r.dose_number >= 1 AND v.vaccine_brand = 'Johnson & Johnson'
+	GROUP BY age
+	)) as temp
+    
+	GROUP BY age
+	ORDER BY totalFreq DESC
+	`;
+
+	db.query(sqlInsert, (err, result) => {
+		console.log(result);
+		response.send(result);
+	});
+});
+
 app.listen(3002, () => {
 	console.log("running on port 3002");
 });

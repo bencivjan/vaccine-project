@@ -13,6 +13,8 @@ function App() {
 
 	const [ searchQuery, setQuery ] = useState("");
 
+	const [ advQuery, setAdvQuery ] = useState([]);
+
 	useEffect(() => {
 		Axios.get("http://localhost:3002/api/initdata").then(response => {
 			setUserList(response.data);
@@ -47,11 +49,21 @@ function App() {
 		setNewPassword("");
 	};
 
-	const searchUser = username => {
+	const searchUser = () => {
 		Axios.post("http://localhost:3002/api/search", {
 			search_query: searchQuery
 		}).then(response => {
 			setUserList(response.data || []);
+			setAdvQuery([]);
+		});
+	};
+
+	const runAdvancedQuery = () => {
+		Axios.get("http://localhost:3002/api/advanced_query", {}).then(response => {
+			console.log(response.data);
+
+			setAdvQuery(response.data || []);
+			setUserList([]);
 		});
 	};
 
@@ -103,9 +115,17 @@ function App() {
 
 				<h1> ADVANCED QUERY </h1>
 
-				<button onClick={submitUser}> submit </button>
+				<button onClick={runAdvancedQuery}> RUN </button>
 
-				<input type="text" name="advanced_result" />
+				{advQuery &&
+					advQuery.map(val => {
+						return (
+							<div className="card">
+								<h1> Age: {val.age} </h1>
+								<p> Frequency: {val.totalFreq}</p>
+							</div>
+						);
+					})}
 
 				{userList &&
 					userList.map(val => {
