@@ -2,7 +2,7 @@
 import "./App.css";
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
-import ReactDOM from 'react-dom';
+import ReactDOM from "react-dom";
 
 function App() {
 	const [ id, setId ] = useState();
@@ -12,7 +12,7 @@ function App() {
 	const [ vaccineList, setVaccineList ] = useState([]);
 	const [ newVaccine, setNewVaccine ] = useState("");
 
-	const [searchQuery, setQuery] = useState("");
+	const [ searchQuery, setQuery ] = useState("");
 
 	useEffect(() => {
 		Axios.get("http://localhost:3002/api/initdata").then(response => {
@@ -55,24 +55,11 @@ function App() {
 
 	const searchVaccine = id => {
 		Axios.post("http://localhost:3002/api/search", {
-			search_query: searchQuery 
+			search_query: searchQuery
 		}).then(response => {
-			console.log("Testing Response" + response.data[0]["vaccine_id"]);
-
-			const element = <h1>{response.data[0]}</h1>;
-			ReactDOM.render(element, document.getElementById('searchResults'));
-
-			/*
-			response.data && response.data.map(val => {
-				return (<div className="example">abcd</div>);
-
-
-			})
-			*/
-			
+			setVaccineList(response.data || []);
 		});
-
-	}
+	};
 
 	return (
 		<div className="App">
@@ -104,31 +91,21 @@ function App() {
 						setBrand(e.target.value);
 					}}
 				/>
-				
+
 				<button onClick={submitVaccine}> Add</button>
 
-				
 				<h1> SEARCH VACCINES </h1>
 				<input
 					type="text"
 					name="search"
-					
 					onChange={e => {
 						setQuery(e.target.value);
 					}}
-					
 				/>
-
 
 				<button onClick={searchVaccine}> Search </button>
 
-				<div id = "searchResults">
-					
-
-				</div>
-
-
-
+				<div id="searchResults" />
 
 				<h1> ADVANCED QUERY </h1>
 
