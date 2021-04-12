@@ -26,12 +26,12 @@ function App() {
 			// vaccine_brand: Brand
 		});
 		setUserList([
-			...userList,
 			{
 				username: username,
 				password: password
 				// vaccine_brand: Brand
-			}
+			},
+			...userList
 		]);
 	};
 
