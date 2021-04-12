@@ -2,7 +2,6 @@
 import "./App.css";
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
-import ReactDOM from "react-dom";
 
 function App() {
 	const [id, setId] = useState();
@@ -10,7 +9,7 @@ function App() {
 	const [Brand, setBrand] = useState("");
 
 	const [vaccineList, setVaccineList] = useState([]);
-	const [newVaccine, setNewVaccine] = useState("");
+	const [newBrand, setNewBrand] = useState("");
 
 	const [searchQuery, setQuery] = useState("");
 
@@ -48,12 +47,12 @@ function App() {
 
 	};
 
-	const updateVaccine = (vaccine_brand) => {
+	const updateVaccine = (vaccine_id) => {
 		Axios.put(`http://localhost:3002/api/update`, {
-			vaccine_brand: vaccine_brand,
-			vaccine_name: newVaccine
+			vaccine_id: vaccine_id,
+			vaccine_brand: newBrand
 		});
-		setNewVaccine("");
+		setNewBrand("");
 	};
 
 	const searchVaccine = id => {
@@ -143,11 +142,11 @@ function App() {
 									type="text"
 									id="updateInput"
 									onChange={e => {
-										setNewVaccine(e.target.value);
-									} }/>
+										setNewBrand(e.target.value);
+									}} />
 								<button
 									onClick={() => {
-										updateVaccine(val.vaccine_brand);
+										updateVaccine(val.vaccine_id);
 									}}
 								>
 									{" "}
