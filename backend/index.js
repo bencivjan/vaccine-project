@@ -23,15 +23,12 @@ app.get("/api/initdata", (require, response) => {
 	});
 });
 
-app.get("/api/get", (require, response) => {
-    const search_query = require.body.search_query;
+app.post("/api/search", (require, response) => {
+	const search_query = require.body.search_query;
 	const sqlSearch = "SELECT * FROM `vaccines` WHERE `vaccine_id` = ? OR `vaccine_name` =  ? OR `vaccine_brand` = ?";
 
-    console.log(require.body);
-    console.log(require.body.search_query);
-
-	db.query(sqlSearch, [search_query, search_query, search_query], (err, result) => {
-		console.log(result);
+	db.query(sqlSearch, [ search_query, search_query, search_query ], (err, result) => {
+		response.send(result);
 		console.log(err);
 	});
 });

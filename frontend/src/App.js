@@ -11,9 +11,7 @@ function App() {
 	const [ vaccineList, setVaccineList ] = useState([]);
 	const [ newVaccine, setNewVaccine ] = useState("");
 
-	const [searchQuery, setQuery] = useState("");
-
-
+	const [ searchQuery, setQuery ] = useState("");
 
 	useEffect(() => {
 		Axios.get("http://localhost:3002/api/initdata").then(response => {
@@ -55,10 +53,10 @@ function App() {
 	};
 
 	const searchVaccine = id => {
-		Axios.get("http://localhost:3002/api/get", {
-			search_query: searchQuery 
+		Axios.post("http://localhost:3002/api/search", {
+			search_query: searchQuery
 		});
-	}
+	};
 
 	return (
 		<div className="App">
@@ -90,27 +88,19 @@ function App() {
 						setBrand(e.target.value);
 					}}
 				/>
-				
+
 				<button onClick={submitVaccine}> Add</button>
 
-
-
-				
 				<h1> SEARCH VACCINES </h1>
 				<input
 					type="text"
 					name="search"
-					
 					onChange={e => {
 						setQuery(e.target.value);
 					}}
-					
 				/>
 
 				<button onClick={searchVaccine}> Search </button>
-
-
-
 
 				<h1> ADVANCED QUERY </h1>
 
