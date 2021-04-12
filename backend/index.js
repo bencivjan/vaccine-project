@@ -99,7 +99,7 @@ app.put("/api/update/", (require, response) => {
 	const vaccine_brand = require.body.vaccine_brand;
 	console.log(vaccine_name);
 	console.log(vaccine_brand);
-	const sqlUpdate = "UPDATE `vaccines` SET `vaccine_brand` = ?  WHERE `vaccine_name`= ?";
+	const sqlUpdate = "UPDATE `vaccines` SET `vaccine_name` = ?  WHERE `vaccine_brand`= ?";
 	db.query(sqlUpdate, [ vaccine_name, vaccine_brand ], (err, result) => {
 		if (err) console.log(err);
 	});
