@@ -60,24 +60,16 @@ app.delete("/api/delete/:movieName", (require, response) => {
 });
 
 app.put("/api/update/", (require, response) => {
-	console.log(require.body);
+	// console.log(require.body);
 	const vaccine_name = require.body.vaccine_name;
 	const vaccine_brand = require.body.vaccine_brand;
-	console.log(vaccine_name);
-	console.log(vaccine_brand);
+	// console.log(vaccine_name);
+	// console.log(vaccine_brand);
 	const sqlUpdate = "UPDATE `vaccines` SET `vaccine_name` = ?  WHERE `vaccine_brand`= ?";
 	db.query(sqlUpdate, [ vaccine_name, vaccine_brand ], (err, result) => {
 		console.log(result);
 		if (err) console.log(err);
 	});
-
-	// const movieName = require.body.movieName;
-	// const movieReview = require.body.movieReview;
-
-	// const sqlUpdate = "UPDATE `movie_reviews` SET `movieReview` = ? WHERE `movieName`= ?";
-	// db.query(sqlUpdate, [ movieReview, movieName ], (err, result) => {
-	// 	if (err) console.log(err);
-	// });
 });
 
 app.listen(3002, () => {

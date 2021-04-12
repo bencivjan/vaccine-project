@@ -5,14 +5,14 @@ import Axios from "axios";
 import ReactDOM from "react-dom";
 
 function App() {
-	const [ id, setId ] = useState();
-	const [ Name, setName ] = useState("");
-	const [ Brand, setBrand ] = useState("");
+	const [id, setId] = useState();
+	const [Name, setName] = useState("");
+	const [Brand, setBrand] = useState("");
 
-	const [ vaccineList, setVaccineList ] = useState([]);
-	const [ newVaccine, setNewVaccine ] = useState("");
+	const [vaccineList, setVaccineList] = useState([]);
+	const [newVaccine, setNewVaccine] = useState("");
 
-	const [ searchQuery, setQuery ] = useState("");
+	const [searchQuery, setQuery] = useState("");
 
 	useEffect(() => {
 		Axios.get("http://localhost:3002/api/initdata").then(response => {
@@ -42,13 +42,16 @@ function App() {
 	};
 
 	const deleteVaccine = id => {
+		console.log("deleted");
+		console.log(id);
 		Axios.delete(`http://localhost:3002/api/delete/${id}`);
+
 	};
 
-	const updateVaccine = id => {
+	const updateVaccine = (vaccine_brand) => {
 		Axios.put(`http://localhost:3002/api/update`, {
-			id: id
-			// movieReview: newVaccine
+			vaccine_brand: vaccine_brand,
+			vaccine_name: newVaccine
 		});
 		setNewVaccine("");
 	};
@@ -107,6 +110,20 @@ function App() {
 
 				<div id="searchResults" />
 
+				<h1> ADVANCED QUERY </h1>
+
+				<button onClick={submitVaccine}> submit </button>
+
+				<input
+					type="text"
+					name="advanced_result"
+				/*
+				onChange={e => {
+					setBrand(e.target.value);
+				}}
+				*/
+				/>
+
 				{vaccineList &&
 					vaccineList.map(val => {
 						return (
@@ -116,7 +133,8 @@ function App() {
 								<p>Vaccine Brand: {val.vaccine_brand}</p>
 								<button
 									onClick={() => {
-										deleteVaccine(val.id);
+										deleteVaccine(val.vaccine_id);
+										console.log(val.vaccine_id);
 									}}
 								>
 									{" "}
