@@ -1,28 +1,3 @@
-// import "./App.css";
-// import Axios from "axios";
-// import React, { useState, useEffect } from "react";
-
-// function App() {
-// 	return (
-// 		<div className="App">
-// 			<h1> Vaccine Form </h1>
-
-// 			<div className="form">
-// 				<label> First Name: </label>
-// 				<input type="text" name="firstName" />
-
-// 				<label> Last Name: </label>
-// 				<input type="text" name="lastName" />
-
-// 				<label> Vaccine Brand: </label>
-// 				<input type="text" name="brand" />
-
-// 				<button> Submit</button>
-// 			</div>
-// 		</div>
-// 	);
-// }
-
 // export default App;
 import "./App.css";
 import React, { useState, useEffect } from "react";
@@ -36,10 +11,13 @@ function App() {
 	const [ vaccineList, setVaccineList ] = useState([]);
 	const [ newVaccine, setNewVaccine ] = useState("");
 
+	const [searchQuery, setQuery] = useState("");
+
+
+
 	useEffect(() => {
 		Axios.get("http://localhost:3002/api/initdata").then(response => {
 			setVaccineList(response.data);
-
 		});
 	}, []);
 
@@ -76,6 +54,12 @@ function App() {
 		setNewVaccine("");
 	};
 
+	const searchVaccine = id => {
+		Axios.get("http://localhost:3002/api/get", {
+			search_query: searchQuery 
+		});
+	}
+
 	return (
 		<div className="App">
 			<h1> CRUD APPLICATIONS</h1>
@@ -108,19 +92,25 @@ function App() {
 				/>
 				
 				<button onClick={submitVaccine}> Add</button>
+
+
+
 				
 				<h1> SEARCH VACCINES </h1>
 				<input
 					type="text"
 					name="search"
-					/*
+					
 					onChange={e => {
-						setBrand(e.target.value);
+						setQuery(e.target.value);
 					}}
-					*/
+					
 				/>
 
-				<button onClick={submitVaccine}> Search </button>
+				<button onClick={searchVaccine}> Search </button>
+
+
+
 
 				<h1> ADVANCED QUERY </h1>
 
