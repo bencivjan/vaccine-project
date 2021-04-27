@@ -18,8 +18,8 @@ function Routes() {
 	return (
 		<Switch>
 			{/* The Switch decides which component to show based on the current URL.*/}
-			<Route exact path="/page" component={Login} />
-			<Route exact path="/" component={App} />
+			<Route exact path="/" component={Login} />
+			<Route exact path="/home" component={App} />
 		</Switch>
 	);
 }
