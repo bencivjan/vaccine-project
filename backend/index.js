@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const app = express();
 const mysql = require("mysql");
 const cors = require("cors");
+const { response } = require("express");
 
 var db = mysql.createConnection({
 	host: "34.70.192.41",
@@ -47,6 +48,17 @@ app.post("/api/createUser", (require, response) => {
 			console.log(resultAI);
 			console.log(errAI);
 		});
+	});
+});
+
+app.post("/api/login", (require, response) => {
+	const username = require.body.username;
+	const query = "SELECT `password` FROM `user_login` WHERE `username` = ?";
+
+	db.query(query, [ username ], (err, result) => {
+		console.log(result);
+		console.log(err);
+		response.send(result);
 	});
 });
 
