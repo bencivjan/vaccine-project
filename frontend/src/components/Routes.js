@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 import App from "./App";
 import Login from "./Login";
-import Create_User from "./Create_User";
+import CreateUser from "./Create_User";
 
 /**
  * Import all page components here
@@ -20,7 +20,7 @@ function Routes() {
 		<Switch>
 			{/* The Switch decides which component to show based on the current URL.*/}
 			<Route exact path="/" component={Login} />
-			<Route exact path="/Create_User" component={Create_User} />
+			<Route exact path="/createUser" component={CreateUser} />
 			<Route exact path="/home" component={App} />
 		</Switch>
 	);
