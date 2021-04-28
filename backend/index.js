@@ -56,11 +56,14 @@ app.post("/api/createUser", (require, response) => {
 
 app.post("/api/login", (require, response) => {
 	const username = require.body.username;
-	console.log(username);
 	const query = "SELECT `password` FROM `user_login` WHERE `username` = ?";
 
 	db.query(query, [ username ], (err, result) => {
-		const password = result[0].password
+		console.log(result);
+		let password = ""
+		if (result.length > 0) {
+			password = result[0].password
+		}
 		console.log(err);
 		response.send(password);
 	});

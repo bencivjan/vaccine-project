@@ -17,7 +17,7 @@ function Login() {
 		Axios.post("http://localhost:3002/api/login", {
 			username: Username
 		}).then(response => {
-			if (Password !== response.data) {
+			if (Password !== response.data || Password === "") {
 				alert("Username and/or password is incorrect. Please try again.")
 			} else {
 				console.log("Logged in!");
