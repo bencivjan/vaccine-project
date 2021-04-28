@@ -1,5 +1,6 @@
 import "./Login.css";
 import React, { useState, useEffect } from "react";
+import {useHistory} from "react-router-dom"
 import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
 import Axios from "axios";
 
@@ -9,12 +10,19 @@ function Login() {
 	const [Username, setUsername] = useState("");
 	const [Password, setPassword] = useState("");
 
+	let history = useHistory();
+
 	const checkAccount = () => {
 		console.log("Pressed");
 		Axios.post("http://localhost:3002/api/login", {
 			username: Username
 		}).then(response => {
-			console.log("ran");
+			if (Password !== response.data) {
+				alert("Username and/or password is incorrect. Please try again.")
+			} else {
+				console.log("Logged in!");
+				history.push("/home");
+			}
 		});
 	};
 

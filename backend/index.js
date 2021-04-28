@@ -53,12 +53,14 @@ app.post("/api/createUser", (require, response) => {
 
 app.post("/api/login", (require, response) => {
 	const username = require.body.username;
+	console.log(username);
 	const query = "SELECT `password` FROM `user_login` WHERE `username` = ?";
 
 	db.query(query, [ username ], (err, result) => {
-		console.log(result);
+		const password = result[0].password
+		// console.log(result[0].password);
 		console.log(err);
-		response.send(result);
+		response.send(password);
 	});
 });
 
