@@ -61,7 +61,6 @@ app.post("/api/login", (require, response) => {
 
 	db.query(query, [ username ], (err, result) => {
 		const password = result[0].password
-		// console.log(result[0].password);
 		console.log(err);
 		response.send(password);
 	});
