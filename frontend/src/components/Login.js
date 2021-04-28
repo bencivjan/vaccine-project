@@ -1,6 +1,6 @@
 import "./Login.css";
 import React, { useState, useEffect } from "react";
-import {useHistory} from "react-router-dom"
+import { useHistory, Link } from "react-router-dom"
 import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
 import Axios from "axios";
 
@@ -32,7 +32,7 @@ function Login() {
 				<Header as='h2' color='black' textAlign='center'> Log-in to your account
       		</Header>
 				<Form size='large'>
-					<Segment stacked>
+					<Segment stacked style={{ minWidth: 425 }}>
 						<Form.Input
 							fluid icon='user'
 							iconPosition='left'
@@ -56,10 +56,10 @@ function Login() {
 					</Segment>
 				</Form>
 				<Message>
-					New to us? <a href='#'>Sign Up</a>
+					New to us? <Link to="/createUser">Sign Up!</Link>
 				</Message>
 			</Grid.Column>
-		</Grid>
+		</Grid >
 	)
 }
 

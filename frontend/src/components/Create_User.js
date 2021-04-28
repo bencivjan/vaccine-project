@@ -27,11 +27,11 @@ function CreateUser() {
 
 	return (
 		<Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
-			<Grid.Column style={{ maxWidth: 450 }}>
-				<Header as='h2' color='black' textAlign='center'> Log-in to your account
+			<Grid.Column style={{ maxWidth: 1000 }}>
+				<Header as='h2' color='black' textAlign='center'> Create your account
       </Header>
 				<Form size='large'>
-					<Segment stacked>
+					<Segment stacked style={{ minWidth: 450 }}>
 						<Form.Input
 							placeholder='First Name'
 							onChange={e => {
@@ -68,7 +68,7 @@ function CreateUser() {
 								setPassword(e.target.value);
 							}}
 						/>
-						<Button onClick={createAccount}> Create Acocunt </Button>
+						<Button onClick={createAccount}> Create Account </Button>
 					</Segment>
 				</Form>
 			</Grid.Column>
