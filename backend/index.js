@@ -19,8 +19,8 @@ app.use(express.json());
 app.post("/api/createUser", (require, response) => {
 	const username = require.body.username;
 	const password = require.body.password;
-	const first = require.body.first;
-	const last = require.body.last;
+	const first = require.body.first_name;
+	const last = require.body.last_name;
 	const age = require.body.age;
 	const email = require.body.email;
 
@@ -32,19 +32,22 @@ app.post("/api/createUser", (require, response) => {
 	const aiInsert = "INSERT INTO `account_information` (`username`, `person_id`) VALUES (?,?)";
 
 	db.query(getLastId, (err, result) => {
-		const person_id = result.id + 1;
+		console.log(result);
 
-		db.query(personInsert, [ person_id, first, last, age, email ], (errPerson, resultPerson) => {
+		const person_id = Number(result[0].id + 1);
+		console.log(person_id);
+
+		db.query(personInsert, [person_id, first, last, age, email], (errPerson, resultPerson) => {
 			console.log(resultPerson);
 			console.log(errPerson);
 		});
 
-		db.query(loginInsert, [ username, password ], (errLogin, resultLogin) => {
+		db.query(loginInsert, [username, password], (errLogin, resultLogin) => {
 			console.log(resultLogin);
 			console.log(errLogin);
 		});
 
-		db.query(aiInsert, [ username, person_id ], (errAI, resultAI) => {
+		db.query(aiInsert, [username, person_id], (errAI, resultAI) => {
 			console.log(resultAI);
 			console.log(errAI);
 		});
@@ -77,7 +80,7 @@ app.post("/api/search", (require, response) => {
 	const search_query = require.body.search_query;
 	const sqlSearch = "SELECT * FROM `vaccines` WHERE `vaccine_id` = ? OR `vaccine_name` =  ? OR `vaccine_brand` = ?";
 
-	db.query(sqlSearch, [ search_query, search_query, search_query ], (err, result) => {
+	db.query(sqlSearch, [search_query, search_query, search_query], (err, result) => {
 		response.send(result);
 		console.log(err);
 	});
@@ -89,7 +92,7 @@ app.post("/api/insert", (require, response) => {
 	const vaccine_brand = require.body.vaccine_brand;
 
 	const sqlInsert = "INSERT INTO `vaccines` (`vaccine_id`, `vaccine_name`, `vaccine_brand`) VALUES (?,?,?)";
-	db.query(sqlInsert, [ vaccine_id, vaccine_name, vaccine_brand ], (err, result) => {
+	db.query(sqlInsert, [vaccine_id, vaccine_name, vaccine_brand], (err, result) => {
 		console.log(result);
 		console.log(err);
 	});
@@ -108,7 +111,7 @@ app.put("/api/update/", (require, response) => {
 	const vaccine_id = require.body.vaccine_id;
 	const vaccine_brand = require.body.vaccine_brand;
 	const sqlUpdate = "UPDATE `vaccines` SET `vaccine_brand` = ?  WHERE `vaccine_id`= ?";
-	db.query(sqlUpdate, [ vaccine_brand, vaccine_id ], (err, result) => {
+	db.query(sqlUpdate, [vaccine_brand, vaccine_id], (err, result) => {
 		console.log(result);
 		if (err) console.log(err);
 	});
