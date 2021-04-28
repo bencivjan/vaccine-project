@@ -1,5 +1,14 @@
 import React from 'react'
 import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
+import Axios from "axios";
+
+const checkAccount = () => {
+	console.log("Pressed");
+	Axios.post("http://localhost:3002/api/login", {
+	}).then(response => {
+		console.log("ran");
+	});
+};
 
 const Login = () => (
 	<Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
@@ -17,9 +26,7 @@ const Login = () => (
 						type='password'
 					/>
 
-					<Button color='black' fluid size='large'>
-						Login
-          </Button>
+					<Button onClick={checkAccount}> Login </Button>
 				</Segment>
 			</Form>
 			<Message>
