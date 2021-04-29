@@ -56,6 +56,18 @@ app.post("/api/createUser", (require, response) => {
 	});
 });
 
+app.post("/api/createVaccine", (require, response) => {
+	const vaccine_id = require.body.vaccine_id;
+	const vaccine_name = require.body.vaccine_name;
+	const vaccine_brand = require.body.vaccine_brand;
+
+	const sqlInsert = "INSERT INTO `vaccines` (`vaccine_id`, `vaccine_name`, `vaccine_brand`) VALUES (?,?,?)";
+	db.query(sqlInsert, [vaccine_id, vaccine_name, vaccine_brand], (err, result) => {
+		console.log(result);
+		console.log(err);
+	});
+});
+
 app.post("/api/login", (require, response) => {
 	const username = require.body.username;
 	global_username = require.body.username;
