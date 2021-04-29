@@ -12,6 +12,8 @@ var db = mysql.createConnection({
 	database: "vaccine_db"
 });
 
+var global_username = "";
+
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
@@ -56,6 +58,7 @@ app.post("/api/createUser", (require, response) => {
 
 app.post("/api/login", (require, response) => {
 	const username = require.body.username;
+	global_username = require.body.username;
 	const query = "SELECT `password` FROM `user_login` WHERE `username` = ?";
 
 	db.query(query, [ username ], (err, result) => {
@@ -69,63 +72,17 @@ app.post("/api/login", (require, response) => {
 	});
 });
 
-// ================= STAGE 4 CODE BELOW========================
 app.get("/api/initdata", (require, response) => {
-	const sqlSelect = "SELECT * FROM vaccines";
-	db.query(sqlSelect, (err, result) => {
+	const sqlSelect = "SELECT * FROM person p JOIN account_information a on p.person_id = a.person_id WHERE a.username = ?";
+	// const sqlSelect = "SELECT * FROM person"
+	// db.query(sqlSelect, (err, result) => {
+	db.query(sqlSelect, [ global_username ], (err, result) => {
 		response.send(result);
 		console.log(err);
+		console.log("username: " + global_username)
 	});
 });
 
-app.post("/api/search", (require, response) => {
-	const search_query = require.body.search_query;
-	const sqlSearch = "SELECT * FROM `vaccines` WHERE `vaccine_id` = ? OR `vaccine_name` =  ? OR `vaccine_brand` = ?";
-
-	db.query(sqlSearch, [search_query, search_query, search_query], (err, result) => {
-		response.send(result);
-		console.log(err);
-	});
-});
-
-app.post("/api/insert", (require, response) => {
-	const vaccine_id = require.body.vaccine_id;
-	const vaccine_name = require.body.vaccine_name;
-	const vaccine_brand = require.body.vaccine_brand;
-
-	const sqlInsert = "INSERT INTO `vaccines` (`vaccine_id`, `vaccine_name`, `vaccine_brand`) VALUES (?,?,?)";
-	db.query(sqlInsert, [vaccine_id, vaccine_name, vaccine_brand], (err, result) => {
-		console.log(result);
-		console.log(err);
-	});
-});
-
-app.delete("/api/delete/:vaccine_id", (require, response) => {
-	const vaccine_id = require.params.vaccine_id;
-
-	const sqlDelete = "DELETE FROM `vaccines` WHERE `vaccine_id` = ?";
-	db.query(sqlDelete, vaccine_id, (err, result) => {
-		if (err) console.log(err);
-	});
-});
-
-app.put("/api/update/", (require, response) => {
-	const vaccine_id = require.body.vaccine_id;
-	const vaccine_brand = require.body.vaccine_brand;
-	const sqlUpdate = "UPDATE `vaccines` SET `vaccine_brand` = ?  WHERE `vaccine_id`= ?";
-	db.query(sqlUpdate, [vaccine_brand, vaccine_id], (err, result) => {
-		console.log(result);
-		if (err) console.log(err);
-	});
-});
-
-app.get("/api/advanced_query", (require, response) => {
-	const sqlInsert = "SELECT * FROM `vaccines` WHERE `vaccine_id` < 3";
-	db.query(sqlInsert, (err, result) => {
-		console.log(result);
-		response.send(result);
-	});
-});
 
 app.listen(3002, () => {
 	console.log("running on port 3002");

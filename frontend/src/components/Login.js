@@ -36,7 +36,7 @@ function Login() {
 						<Form.Input
 							fluid icon='user'
 							iconPosition='left'
-							placeholder='E-mail address'
+							placeholder='Username'
 							onChange={e => {
 								setUsername(e.target.value);
 							}
