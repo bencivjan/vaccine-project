@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "/Users/bhavesh/Desktop/vaccine-project/frontend/public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
