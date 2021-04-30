@@ -14,7 +14,7 @@ function Login() {
 
 	const checkAccount = () => {
 		console.log("Pressed");
-		Axios.post("https://us-central1-vaccine-backend.cloudfunctions.net/app/api/login", {
+		Axios.post("https://localhost/api/login", {
 			username: Username
 		}).then(response => {
 			if (Password !== response.data || Password === "") {

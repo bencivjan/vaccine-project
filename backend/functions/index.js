@@ -157,34 +157,34 @@ app.get("/api/initdata1", (require, response) => {
 	WHERE username = ?`;
   // const sqlSelect = "SELECT * FROM person"
   // db.query(sqlSelect, (err, result) => {
-  db.query(sqlCommand, [global_username], (err, r) => {
+  db.query(sqlCommand, [global_pid], (err, r) => {
     console.log(err);
 
-    db.query(personTable, [global_pid], (err1, response) => {
+    db.query(personTable, (err1, response) => {
         response.send(result);
     })
   });
 });
 
 app.get("/api/initdata2", (require, response) => {
-    const locationTable = "Select * from LocationTable"
+    const vTable = "Select * from LocationTable NATURAL JOIN VaccineTable"
 
-    db.query(locationTable, [global_pid], (err, result) => {
+    db.query(vTable, (err, result) => {
         response.send(result);
         console.log(err);
         console.log(result);
       });
 });
 
-app.get("/api/initdata3", (require, response) => {
-    const vaccineTable = "Select * from VaccineTable"
+// app.get("/api/initdata3", (require, response) => {
+//     const vaccineTable = "Select * from VaccineTable"
 
-    db.query(vaccineTable, [global_pid], (err, result) => {
-        response.send(result);
-        console.log(err);
-        console.log(result);
-      });
-})
+//     db.query(vaccineTable, [global_pid], (err, result) => {
+//         response.send(result);
+//         console.log(err);
+//         console.log(result);
+//       });
+// })
 
 
 app.listen(3002, () => {
