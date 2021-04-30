@@ -60,6 +60,18 @@ function App() {
 								<br></br>
 								<br></br>
 
+								<p> Vaccine Id: {val.vaccine_id} </p>
+								<p> Vaccine Name: {val.vaccine_name} </p>
+								<p> Vaccine Brand: {val.vaccine_brand} </p>
+								<p> Dose Date: {val.dose_date} </p>
+								<p> Dose Number: {val.dose_number} </p>
+
+								<p> Clinic Name {val.clinic_name} </p>
+								<p> Clinic Address: {val.address} </p>
+
+								<p> Is Verified: {val.verified}</p>
+								<p> Verification Id: {val.verification_id}</p>
+
 								<label> Vaccine Id: </label>
 								<input
 									type="text"

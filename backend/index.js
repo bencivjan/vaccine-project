@@ -85,7 +85,7 @@ app.post("/api/login", (require, response) => {
 });
 
 app.get("/api/initdata", (require, response) => {
-	const sqlSelect = "SELECT * FROM person p JOIN account_information a on p.person_id = a.person_id WHERE a.username = ?";
+	const sqlSelect = "SELECT * FROM person p JOIN account_information a on p.person_id = a.person_id JOIN received_at ra on p.person_id = ra.person_id JOIN locations l on ra.location_id = l.location_id JOIN user_login ul on a.username = ul.username JOIN received_dose rd on p.person_id = rd.person_id JOIN vaccines v on rd.vaccine_id = v.vaccine_id WHERE a.username = ?";
 	// const sqlSelect = "SELECT * FROM person"
 	// db.query(sqlSelect, (err, result) => {
 	db.query(sqlSelect, [ global_username ], (err, result) => {
