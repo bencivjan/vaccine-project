@@ -40,6 +40,7 @@ function App() {
 
 	useEffect(() => {
 		Axios.get("http://localhost:3002/api/initdata").then(response => {
+			console.log(response.data);
 			setUserList(response.data);
 		});
 	}, []);
