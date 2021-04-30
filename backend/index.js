@@ -76,7 +76,7 @@ app.post("/api/login", (require, response) => {
 	db.query(query, [ username ], (err, result) => {
 		console.log(result);
 		let password = ""
-		if (result.length > 0) {
+		if (result != null && result.length > 0) {
 			password = result[0].password
 		}
 		console.log(err);
