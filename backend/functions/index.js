@@ -32,6 +32,7 @@ var db = mysql.createConnection({
 });
 
 var global_username = "";
+let global_pid = "";
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -121,7 +122,18 @@ app.post("/api/createVaccine", (require, response) => {
 app.post("/api/login", (require, response) => {
   const username = require.body.username;
   global_username = require.body.username;
+  
   const query = "SELECT `password` FROM `user_login` WHERE `username` = ?";
+
+  const getPid = `select person_id 
+  from person natural join account_information natural join user_login
+  where username = ?;`;
+
+  db.query(getPid, [username], (err, result) => {
+    if (result) {
+        global_pid = result[0].person_id
+    }
+  })
 
   db.query(query, [username], (err, result) => {
     console.log(result);
@@ -134,22 +146,45 @@ app.post("/api/login", (require, response) => {
   });
 });
 
-app.get("/api/initdata", (require, response) => {
-  const sqlSelect = `SELECT *
+app.get("/api/initdata1", (require, response) => {
+  const sqlCommand = "call get_data(?)"
+  const personTable = "Select * from PersonTable"
+  
+  `SELECT *
 	FROM person NATURAL JOIN account_information NATURAL JOIN received_at
 	NATURAL JOIN locations NATURAL JOIN user_login NATURAL JOIN received_dose
 	NATURAL JOIN vaccines
 	WHERE username = ?`;
   // const sqlSelect = "SELECT * FROM person"
   // db.query(sqlSelect, (err, result) => {
-  db.query(sqlSelect, [global_username], (err, result) => {
-    response.send(result);
+  db.query(sqlCommand, [global_username], (err, r) => {
     console.log(err);
-    console.log("username: " + global_username)
-    console.log(result);
 
+    db.query(personTable, [global_pid], (err1, response) => {
+        response.send(result);
+    })
   });
 });
+
+app.get("/api/initdata2", (require, response) => {
+    const locationTable = "Select * from LocationTable"
+
+    db.query(locationTable, [global_pid], (err, result) => {
+        response.send(result);
+        console.log(err);
+        console.log(result);
+      });
+});
+
+app.get("/api/initdata3", (require, response) => {
+    const vaccineTable = "Select * from VaccineTable"
+
+    db.query(vaccineTable, [global_pid], (err, result) => {
+        response.send(result);
+        console.log(err);
+        console.log(result);
+      });
+})
 
 
 app.listen(3002, () => {
