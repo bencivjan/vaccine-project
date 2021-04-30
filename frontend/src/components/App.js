@@ -1,38 +1,33 @@
-// export default App;
 import "./App.css";
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
-import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
+import { Button, Form, Grid, Header, Message, Segment, Card, Input } from 'semantic-ui-react'
 
 function App() {
-	const [id, setId] = useState();
-	const [FirstName, setFirstName] = useState("");
-	const [LastName, setLastName] = useState("");
-	const [Age, setAge] = useState("");
-	const [Email, setEmail] = useState("");
-
 	const [VaccineName, setVaccineName] = useState("");
 	const [VaccineBrand, setVaccineBrand] = useState("");
 	const [vaccine_id, setVaccineId] = useState("");
 	const [DoseDate, setDoseDate] = useState("");
 	const [DoseNumber, setDoseNumber] = useState("");
+	let person_id;
+	let person;
 
 	const [ClinicAddress, setClinicAddress] = useState("");
 	const [ClinicName, setClinicName] = useState("");
 
-	const [IsVerified, setIsVerified] = useState("");
-	const [VerificationId, setVerificationId] = useState("");
-
 	const [userList, setUserList] = useState([]);
-
-	const [searchQuery, setQuery] = useState("");
 
 	const createVaccineID = () => {
 		console.log("Pressed");
 		Axios.post("https://us-central1-vaccine-backend.cloudfunctions.net/app/api/createVaccine", {
+			person_id: person_id,
 			vaccine_id: vaccine_id,
 			vaccine_name: VaccineName,
-			vaccine_brand: VaccineBrand
+			vaccine_brand: VaccineBrand,
+			dose_date: DoseDate,
+			dose_number: DoseNumber,
+			clinic_address: ClinicAddress,
+			clinic_name: ClinicName
 		}).then(response => {
 			console.log("created");
 		});
@@ -42,6 +37,10 @@ function App() {
 		Axios.get("https://us-central1-vaccine-backend.cloudfunctions.net/app/api/initdata").then(response => {
 			console.log(response.data);
 			setUserList(response.data);
+			person = response.data[0]
+			console.log(person);
+
+			// person_id = userList[0].person_id;
 		});
 	}, []);
 
@@ -52,59 +51,101 @@ function App() {
 			<div className="form">
 				{userList &&
 					userList.map(val => {
+						person_id = userList[0].person_id;
 						return (
-							<div className="card">
-								<h1> Name: {val.first_name} {val.last_name} </h1>
-								<p> Age: {val.age} </p>
-								<p> Email: {val.email} </p>
+							<div>
+								<Card>
+									<Card.Content>
+										<Card.Header>Name: {val.first_name} {val.last_name}</Card.Header>
+										<Card.Meta>Age: {val.age}</Card.Meta>
+										<Card.Description>
+											Email: {val.email}
+										</Card.Description>
+									</Card.Content>
+								</Card>
 
-								<br></br>
-								<br></br>
-
-								<p> Vaccine Id: {val.vaccine_id} </p>
-								<p> Vaccine Name: {val.vaccine_name} </p>
-								<p> Vaccine Brand: {val.vaccine_brand} </p>
-								<p> Dose Date: {val.dose_date} </p>
-								<p> Dose Number: {val.dose_number} </p>
-
-								<p> Clinic Name {val.clinic_name} </p>
-								<p> Clinic Address: {val.address} </p>
-
-								<p> Is Verified: {val.verified}</p>
-								<p> Verification Id: {val.verification_id}</p>
-
-								<label> Vaccine Id: </label>
-								<input
-									type="text"
-									name="VaccineId"
-									onChange={e => {
-										setVaccineId(e.target.value);
-									}}
-								/>
-
-								<label> Vaccine Name: </label>
-								<input
-									type="text"
-									name="VaccineName"
-									onChange={e => {
-										setVaccineName(e.target.value);
-									}}
-								/>
-
-								<label> Vaccine Brand: </label>
-								<input
-									type="text"
-									name="VaccineBrand"
-									onChange={e => {
-										setVaccineBrand(e.target.value);
-									}}
-								/>
-
-								<button onClick={createVaccineID}> Add Vaccine</button>
-								
+								<Card>
+									<Card.Content>
+										<Card.Header>Vaccine Id: {val.vaccine_id}</Card.Header>
+										<Card.Description>
+											Vaccine Name: {val.vaccine_name} <br></br>
+											Vaccine Brand: {val.vaccine_brand}<br></br>
+											Dose Date: {val.dose_date}<br></br>
+											Dose Number: {val.dose_number}<br></br>
+											Clinic Name: {val.clinic_name}<br></br>
+											Clinic Address: {val.address}
+										</Card.Description>
+									</Card.Content>
+								</Card>
 							</div>
 						);
 					})}
+				<div>
+
+				</div>
+
+				<label> Vaccine Id: </label>
+				<Input
+					type="text"
+					name="VaccineId"
+					onChange={e => {
+						setVaccineId(e.target.value);
+					}}
+				/>
+
+				<label> Vaccine Name: </label>
+				<Input
+					type="text"
+					name="VaccineName"
+					onChange={e => {
+						setVaccineName(e.target.value);
+					}}
+				/>
+
+				<label> Vaccine Brand: </label>
+				<Input
+					type="text"
+					name="VaccineBrand"
+					onChange={e => {
+						setVaccineBrand(e.target.value);
+					}}
+				/>
+
+				<label> Dose Date: </label>
+				<Input
+					type="text"
+					name="DoseDate"
+					onChange={e => {
+						setDoseDate(e.target.value);
+					}}
+				/>
+				<label> Dose Number: </label>
+				<Input
+					type="text"
+					name="DoseNumber"
+					onChange={e => {
+						setDoseNumber(e.target.value);
+					}}
+				/>
+				<label> Clinic Name: </label>
+				<Input
+					type="text"
+					name="ClinicName"
+					onChange={e => {
+						setClinicName(e.target.value);
+					}}
+				/>
+				<label> Clinic Address: </label>
+				<Input
+					type="text"
+					name="ClinicAddress"
+					onChange={e => {
+						setClinicAddress(e.target.value);
+					}}
+				/>
+
+				<Button onClick={createVaccineID}> Add Vaccine</Button>
+
 			</div>
 		</div>
 	);
