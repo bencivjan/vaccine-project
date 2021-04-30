@@ -16,6 +16,7 @@ function App() {
 	const [ClinicName, setClinicName] = useState("");
 
 	const [userList, setUserList] = useState([]);
+	const [user, setUser] = useState([]);
 
 	const createVaccineID = () => {
 		console.log("Pressed");
@@ -37,7 +38,7 @@ function App() {
 		Axios.get("https://us-central1-vaccine-backend.cloudfunctions.net/app/api/initdata").then(response => {
 			console.log(response.data);
 			setUserList(response.data);
-			person = response.data[0]
+			setUser([response.data[0]])
 			console.log(person);
 
 			// person_id = userList[0].person_id;
@@ -49,21 +50,22 @@ function App() {
 			<h1> Vaccine Database </h1>
 
 			<div className="form">
+				{ user && user.map(val => {
+					return (<Card>
+						<Card.Content>
+							<Card.Header>Name: {val.first_name} {val.last_name}</Card.Header>
+							<Card.Meta>Age: {val.age}</Card.Meta>
+							<Card.Description>
+								Email: {val.email}
+							</Card.Description>
+						</Card.Content>
+					</Card>
+				);
+				})}
 				{userList &&
 					userList.map(val => {
-						person_id = userList[0].person_id;
 						return (
 							<div>
-								<Card>
-									<Card.Content>
-										<Card.Header>Name: {val.first_name} {val.last_name}</Card.Header>
-										<Card.Meta>Age: {val.age}</Card.Meta>
-										<Card.Description>
-											Email: {val.email}
-										</Card.Description>
-									</Card.Content>
-								</Card>
-
 								<Card>
 									<Card.Content>
 										<Card.Header>Vaccine Id: {val.vaccine_id}</Card.Header>
