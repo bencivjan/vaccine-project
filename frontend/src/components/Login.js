@@ -14,7 +14,7 @@ function Login() {
 
 	const checkAccount = () => {
 		console.log("Pressed");
-		Axios.post("http://localhost:3002/api/login", {
+		Axios.post("https://us-central1-vaccine-backend.cloudfunctions.net/app/api/login", {
 			username: Username
 		}).then(response => {
 			if (Password !== response.data || Password === "") {
@@ -63,4 +63,4 @@ function Login() {
 	)
 }
 
-export default Login
+export default Login;

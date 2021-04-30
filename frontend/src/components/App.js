@@ -29,7 +29,7 @@ function App() {
 
 	const createVaccineID = () => {
 		console.log("Pressed");
-		Axios.post("http://localhost:3002/api/createVaccine", {
+		Axios.post("https://us-central1-vaccine-backend.cloudfunctions.net/app/api/createVaccine", {
 			vaccine_id: vaccine_id,
 			vaccine_name: VaccineName,
 			vaccine_brand: VaccineBrand
@@ -39,7 +39,7 @@ function App() {
 	};
 
 	useEffect(() => {
-		Axios.get("http://localhost:3002/api/initdata").then(response => {
+		Axios.get("https://us-central1-vaccine-backend.cloudfunctions.net/app/api/initdata").then(response => {
 			console.log(response.data);
 			setUserList(response.data);
 		});

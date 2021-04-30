@@ -13,7 +13,7 @@ function CreateUser() {
 
 	const createAccount = () => {
 		console.log("Pressed");
-		Axios.post("http://localhost:3002/api/createUser", {
+		Axios.post("https://us-central1-vaccine-backend.cloudfunctions.net/app/api/createUser", {
 			first_name: first_name,
 			last_name: last_name,
 			age: age,
