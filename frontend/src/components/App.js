@@ -9,7 +9,9 @@ function App() {
 	const [vaccine_id, setVaccineId] = useState("");
 	const [DoseDate, setDoseDate] = useState("");
 	const [DoseNumber, setDoseNumber] = useState("");
-	let person_id;
+
+	const [person_id, setPerson_id] = useState();
+	// let person_id;
 
 
 	const [ClinicAddress, setClinicAddress] = useState("");
@@ -39,7 +41,8 @@ function App() {
 		Axios.get("https://us-central1-vaccine-backend.cloudfunctions.net/app/api/initdata1").then(response => {
 			console.log(response.data);
 			setPersonList(response.data);
-			setPerson([response.data[0]])
+			setPerson_id(response.data[0].person_id)
+
 		});
 
 		Axios.get("https://us-central1-vaccine-backend.cloudfunctions.net/app/api/initdata2").then(response => {
