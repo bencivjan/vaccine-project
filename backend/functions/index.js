@@ -54,24 +54,24 @@ app.post("/api/createUser", (require, response) => {
     const aiInsert = "INSERT INTO `account_information` (`username`, `person_id`) VALUES (?,?)";
   
     db.query(getLastId, (err, result) => {
-      console.log(result);
+      // console.log(result);
   
       const person_id = Number(result[0].id + 1);
-      console.log(person_id);
+      // console.log(person_id);
   
       db.query(personInsert, [person_id, first, last, age, email], (errPerson, resultPerson) => {
-        console.log(resultPerson);
-        console.log(errPerson);
+        // console.log(resultPerson);
+        // console.log(errPerson);
       });
   
       db.query(loginInsert, [username, password], (errLogin, resultLogin) => {
-        console.log(resultLogin);
-        console.log(errLogin);
+        // console.log(resultLogin);
+        // console.log(errLogin);
       });
   
       db.query(aiInsert, [username, person_id], (errAI, resultAI) => {
-        console.log(resultAI);
-        console.log(errAI);
+        // console.log(resultAI);
+        // console.log(errAI);
       });
     });
   });
@@ -84,7 +84,7 @@ app.post("/api/createUser", (require, response) => {
     const dose_number = require.body.dose_number;
     const clinic_name = require.body.clinic_name;
     const clinic_address = require.body.clinic_address;
-    const person_id = require.body.person_id;
+    // const person_id = require.body.person_id;
     let location_id;
   
     const getLastLocationId = "SELECT max(location_id) as id from locations";
@@ -94,30 +94,30 @@ app.post("/api/createUser", (require, response) => {
     const recievedAtInsert = "INSERT INTO `received_at` (`person_id`, `location_id`) VALUES (?,?)";
     const receivedDoseInsert = "INSERT INTO `received_dose` (`person_id`, `vaccine_id`, `dose_date`, `dose_number`) VALUES (?,?,?,?)";
 
-    console.log(vaccine_id, vaccine_name, vaccine_brand);
+    // console.log(vaccine_id, vaccine_name, vaccine_brand);
   
     db.query(vaccineInsert, [vaccine_id, vaccine_name, vaccine_brand], (err, result) => {
-      console.log(result);
-      console.log(err);
+      // console.log(result);
+      // console.log(err);
     });
   
     db.query(getLastLocationId, (err, result) => {
       location_id = Number(result[0].id + 1);
   
       db.query(locationInsert, [location_id, clinic_address, clinic_name], (err, result) => {
-        console.log(result);
-        console.log(err);
+        // console.log(result);
+        // console.log(err);
       });
     });
   
-    db.query(recievedAtInsert, [person_id, location_id], (err, result) => {
-      console.log(result);
-      console.log(err);
+    db.query(recievedAtInsert, [global_pid, location_id], (err, result) => {
+      // console.log(result);
+      // console.log(err);
     });
   
-    db.query(receivedDoseInsert, [person_id, vaccine_id, dose_date, dose_number], (err, result) => {
-      console.log(result);
-      console.log(err);
+    db.query(receivedDoseInsert, [global_pid, vaccine_id, dose_date, dose_number], (err, result) => {
+      // console.log(result);
+      // console.log(err);
     });
   });
   
@@ -138,12 +138,12 @@ app.post("/api/createUser", (require, response) => {
     })
   
     db.query(query, [username], (err, result) => {
-      console.log(result);
+      // console.log(result);
       let password = ""
       if (result != null && result.length > 0) {
         password = result[0].password
       }
-      console.log(err);
+      // console.log(err);
       response.send(password);
     });
   });
@@ -151,20 +151,20 @@ app.post("/api/createUser", (require, response) => {
   app.get("/api/initdata1", (require, response) => {
     const sqlCommand = "call get_data(?)"
     const personTable = "Select * from PersonTable"
-    console.log("p_id", global_pid);
+    // console.log("p_id", global_pid);
     
-    `SELECT *
-      FROM person NATURAL JOIN account_information NATURAL JOIN received_at
-      NATURAL JOIN locations NATURAL JOIN user_login NATURAL JOIN received_dose
-      NATURAL JOIN vaccines
-      WHERE username = ?`;
+    // `SELECT *
+    //   FROM person NATURAL JOIN account_information NATURAL JOIN received_at
+    //   NATURAL JOIN locations NATURAL JOIN user_login NATURAL JOIN received_dose
+    //   NATURAL JOIN vaccines
+    //   WHERE username = ?`;
     // const sqlSelect = "SELECT * FROM person"
     // db.query(sqlSelect, (err, result) => {
     db.query(sqlCommand, [global_pid], (err, r) => {
-      console.log(err);
-      console.log("r: ", r)
+      // console.log(err);
+      // console.log("r: ", r)
       db.query(personTable, (err1, result) => {
-          console.log(result);
+          // console.log(result);
           response.send(result);
       })
     });
@@ -175,8 +175,8 @@ app.post("/api/createUser", (require, response) => {
   
       db.query(vTable, (err, result) => {
           response.send(result);
-          console.log(err);
-          console.log(result);
+          // console.log(err);
+          // console.log(result);
         });
   });
   
