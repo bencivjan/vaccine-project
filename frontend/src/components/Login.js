@@ -14,7 +14,7 @@ function Login() {
 
 	const checkAccount = () => {
 		console.log("Pressed");
-		Axios.post("https://localhost/api/login", {
+		Axios.post("http://localhost:3002/api/login", {
 			username: Username
 		}).then(response => {
 			if (Password !== response.data || Password === "") {
